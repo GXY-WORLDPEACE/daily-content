@@ -30,14 +30,25 @@
     </div>
     <script>
         // 从 GitHub 获取内容
-        fetch('https://raw.githubusercontent.com/GXY-WORLDPEACE/daily-content/new/main/daily_content.txt')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('daily-content').innerHTML = `<p>${data}</p>`;
-            })
-            .catch(error => {
+        const fetchContent = async () => {
+            const url = 'https://raw.githubusercontent.com/GXY-WORLDPEACE/daily-content/main/daily_content.txt';
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('网络请求失败');
+                }
+                const data = await response.text();
+                // 防止 XSS，转义 HTML 特殊字符
+                const escapedData = data.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                document.getElementById('daily-content').innerHTML = `<p>${escapedData}</p>`;
+            } catch (error) {
                 document.getElementById('daily-content').innerHTML = `<p>加载内容失败，请稍后重试。</p>`;
-            });
+                console.error('加载错误:', error);
+            }
+        };
+
+        fetchContent();
     </script>
 </body>
 </html>
+
