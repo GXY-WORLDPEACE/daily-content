@@ -30,7 +30,7 @@
     </div>
     <script>
         // 从 GitHub 获取内容
-        fetch('https://github.com/GXY-WORLDPEACE/daily-content/new/main/daily_content.txt')
+        fetch('https://raw.githubusercontent.com/GXY-WORLDPEACE/daily-content/new/main/daily_content.txt')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('daily-content').innerHTML = `<p>${data}</p>`;
