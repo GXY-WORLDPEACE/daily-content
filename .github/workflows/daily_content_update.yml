@@ -9,36 +9,37 @@ jobs:
   update-content:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: 拉取代码库
+      # Step 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: 设置 Python 环境
+      # Step 2: Set up Python environment
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
-      # Step 3: 安装依赖
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt  # 使用明确的依赖文件
+          pip install -r requirements.txt
 
-      # Step 4: 生成每日内容
+      # Step 4: Generate daily content
       - name: Generate daily content
         env:
-          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}  # 使用 GitHub Secrets 存储 API 密钥
-        run: python generate_content.py  # 调用独立的 Python 脚本
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}  # GitHub Secrets 中存储的 API 密钥
+        run: python generate_content.py  # 运行项目根目录下的脚本
 
-      # Step 5: 提交并推送更改
+      # Step 5: Commit and push changes
       - name: Commit and push changes
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git add .
+          git add daily_content.txt
           git commit -m "Update daily content"
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 使用 GitHub 提供的 Token
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 使用 GitHub 提供的临时 Token
+
 
