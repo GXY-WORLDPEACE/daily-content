@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日内容推送</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            color: #444;
+        }
+        .content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>每日内容推送</h1>
+    <div class="content" id="daily-content">
+        <p>正在加载内容...</p>
+    </div>
+    <script>
+        // 从 GitHub 获取内容
+        fetch('https://github.com/GXY-WORLDPEACE/daily-content/new/main/daily_content.txt')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('daily-content').innerHTML = `<p>${data}</p>`;
+            })
+            .catch(error => {
+                document.getElementById('daily-content').innerHTML = `<p>加载内容失败，请稍后重试。</p>`;
+            });
+    </script>
+</body>
+</html>
