@@ -17,7 +17,7 @@ def fetch_daily_content():
             "model": "deepseek-chat",
             "messages": [
                 {"role": "system", "content": "你是一个英文口语老师，帮助用户学习日常英文表达。"},
-                {"role": "user", "content": "生成一条关于餐厅点餐的日常英文口语表达，并附带中文翻译和使用场景示例。"}
+                {"role": "user", "content": "生成十条关于餐厅点餐的日常英文口语表达，并附带中文翻译和使用场景示例。"}
             ],
             "max_tokens": 150
         }
