@@ -20,18 +20,17 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
         }
-        button {
-            background-color: #007BFF;
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
             color: white;
             border: none;
-            padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
         }
-        button:hover {
+        .btn:hover {
             background-color: #0056b3;
         }
     </style>
@@ -41,7 +40,8 @@
     <div class="content" id="daily-content">
         <p>正在加载内容...</p>
     </div>
-    <button onclick="fetchContent()">加载新的内容</button>
+    <button class="btn" id="reload-btn">点击获取新内容</button>
+
     <script>
         // 从 GitHub 获取内容
         const fetchContent = async () => {
@@ -61,8 +61,11 @@
             }
         };
 
-        // 页面加载时先获取一次内容
-        fetchContent();
+        // 在页面加载时和按钮点击时都调用 fetchContent
+        window.onload = fetchContent;
+
+        document.getElementById('reload-btn').addEventListener('click', fetchContent);
     </script>
 </body>
 </html>
+
