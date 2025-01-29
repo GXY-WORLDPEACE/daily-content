@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,16 +43,17 @@
     <button class="btn" id="reload-btn">点击获取新内容</button>
 
     <script>
+        // 从后端获取最新的内容
         const fetchContent = async () => {
-            const url = 'https://raw.githubusercontent.com/GXY-WORLDPEACE/daily-content/main/daily_content.txt';
+            const url = '/generate-content';  // 后端生成内容的接口
             try {
                 const response = await fetch(url);
                 if (!response.ok) {
                     throw new Error('网络请求失败');
                 }
-                const data = await response.text();
-                const escapedData = data.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-                document.getElementById('daily-content').innerHTML = `<p>${escapedData}</p>`;
+                const data = await response.json();
+                const content = data.content;  // 获取生成的内容
+                document.getElementById('daily-content').innerHTML = `<p>${content}</p>`;
             } catch (error) {
                 document.getElementById('daily-content').innerHTML = `<p>加载内容失败，请稍后重试。</p>`;
                 console.error('加载错误:', error);
@@ -61,8 +61,8 @@
         };
 
         window.onload = fetchContent;
-
         document.getElementById('reload-btn').addEventListener('click', fetchContent);
     </script>
 </body>
 </html>
+
