@@ -43,16 +43,37 @@
     <button class="btn" id="reload-btn">点击获取新内容</button>
 
     <script>
-        // 从后端获取最新的内容
         const fetchContent = async () => {
-            const url = '/generate-content';  // 后端生成内容的接口
+            const url = 'https://api.deepseek.com/v1/chat/completions'; // DeepSeek API URL
+            const headers = {
+                "Authorization": "Bearer YOUR_DEEPSEEK_API_KEY",  // 替换为你的 API 密钥
+                "Content-Type": "application/json"
+            };
+
+            const data = {
+                "model": "deepseek-chat",
+                "messages": [
+                    { "role": "system", "content": "你是一个英文口语老师，帮助用户学习日常英文表达。" },
+                    { "role": "user", "content": "生成十条关于餐厅点餐的日常英文口语表达，并附带中文翻译和使用场景示例。" }
+                ],
+                "max_tokens": 150
+            };
+
             try {
-                const response = await fetch(url);
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(data)
+                });
+
                 if (!response.ok) {
-                    throw new Error('网络请求失败');
+                    throw new Error('API 请求失败');
                 }
-                const data = await response.json();
-                const content = data.content;  // 获取生成的内容
+
+                const result = await response.json();
+                const content = result.choices[0].message.content;
+
+                // 更新页面上的内容
                 document.getElementById('daily-content').innerHTML = `<p>${content}</p>`;
             } catch (error) {
                 document.getElementById('daily-content').innerHTML = `<p>加载内容失败，请稍后重试。</p>`;
@@ -60,8 +81,9 @@
             }
         };
 
-        window.onload = fetchContent;
-        document.getElementById('reload-btn').addEventListener('click', fetchContent);
+        window.onload = fetchContent; // 页面加载时获取内容
+
+        document.getElementById('reload-btn').addEventListener('click', fetchContent); // 按钮点击时更新内容
     </script>
 </body>
 </html>
