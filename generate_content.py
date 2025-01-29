@@ -7,7 +7,6 @@ BASE_URL = "https://api.deepseek.com"
 
 def fetch_daily_content():
     try:
-        # 调用 DeepSeek API
         url = f"{BASE_URL}/v1/chat/completions"
         headers = {
             "Authorization": f"Bearer {API_KEY}",
@@ -22,7 +21,7 @@ def fetch_daily_content():
             "max_tokens": 150
         }
         response = requests.post(url, headers=headers, json=data)
-        response.raise_for_status()  # 检查 HTTP 响应状态
+        response.raise_for_status()
         content = response.json().get('choices', [{}])[0].get('message', {}).get('content', '')
         
         if content:
