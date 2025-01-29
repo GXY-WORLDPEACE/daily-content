@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,7 +44,6 @@
     <button class="btn" id="reload-btn">点击获取新内容</button>
 
     <script>
-        // 从 GitHub 获取内容
         const fetchContent = async () => {
             const url = 'https://raw.githubusercontent.com/GXY-WORLDPEACE/daily-content/main/daily_content.txt';
             try {
@@ -52,7 +52,6 @@
                     throw new Error('网络请求失败');
                 }
                 const data = await response.text();
-                // 防止 XSS，转义 HTML 特殊字符
                 const escapedData = data.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 document.getElementById('daily-content').innerHTML = `<p>${escapedData}</p>`;
             } catch (error) {
@@ -61,11 +60,9 @@
             }
         };
 
-        // 在页面加载时和按钮点击时都调用 fetchContent
         window.onload = fetchContent;
 
         document.getElementById('reload-btn').addEventListener('click', fetchContent);
     </script>
 </body>
 </html>
-
